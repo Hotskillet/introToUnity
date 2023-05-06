@@ -10,6 +10,14 @@ public class movementEyeThink : MonoBehaviour
     //specifics about public: it affects scope as how i expected it to work.
     //public means we can reference myInt outside of this class
     public int myInt;
+    public float speed = 20.0f;
+
+    //this is defined as a private variable
+    //this is because he doesnt want it to show up in inspector
+    private Rigidbody rb;
+
+    //this is how you define a vector 
+    //Vector3 coolVector = new Vector3(0.0f, 0.0f, 0.0f);
 
     // Start is called before the first frame update
     //so everything in void start is called only once
@@ -18,12 +26,39 @@ public class movementEyeThink : MonoBehaviour
     //if i wanted this to return a number, then it be int Start(par)
     void Start() {
         myInt = 0;
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update() {
-        myInt = myInt + 1;
-        Debug.Log(myInt);
-        gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
+
+        Vector3 coolVector = new Vector3(0.0f, 0.0f, 0.0f);
+
+        if (Input.GetKey(KeyCode.W)) {
+            coolVector += Vector3.forward;
+            //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.S)) {
+            coolVector -= Vector3.forward;
+            //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
+        }
+        
+        if (Input.GetKey(KeyCode.A)) {
+            coolVector += Vector3.left;
+            //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.D)) {
+            coolVector += Vector3.right;
+            //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
+        }
+
+        gameObject.transform.Translate(coolVector * Time.deltaTime * speed);
+
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            Vector3 jumpForce = new Vector3(0.0f, 5.0f, 0.0f);
+            rb.AddForce(jumpForce, ForceMode.Impulse);
+        }
     }
 }
