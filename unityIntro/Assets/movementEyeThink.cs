@@ -11,11 +11,15 @@ public class movementEyeThink : MonoBehaviour
     //public means we can reference myInt outside of this class
     public int myInt;
     public float speed = 20.0f;
+    public float jumpStrength = 10.0f;
+    public float rotationStrength = 10.0f;
 
     //this is defined as a private variable
     //this is because he doesnt want it to show up in inspector
     private Rigidbody rb;
 
+    //defining the position of the mouse 
+    private Vector2 lastMousePosition = new Vector2(0.0f, 0.0f);
     //this is how you define a vector 
     //Vector3 coolVector = new Vector3(0.0f, 0.0f, 0.0f);
 
@@ -27,6 +31,19 @@ public class movementEyeThink : MonoBehaviour
     void Start() {
         myInt = 0;
         rb = gameObject.GetComponent<Rigidbody>();
+        lastMousePosition = Input.mousePosition;
+
+    }
+
+    void RotateCamera() {
+        Vector2 currentMousePosition = Input.mousePosition;
+        Vector2 mouseDistance = currentMousePosition - lastMousePosition;
+
+        Vector3 cameraRotation = new Vector3(0.0f, mouseDistance.x * Time.deltaTime, 0.0f);
+        transform.Rotate(cameraRotation * rotationStrength);
+
+
+        lastMousePosition = currentMousePosition;
     }
 
     // Update is called once per frame
@@ -57,8 +74,12 @@ public class movementEyeThink : MonoBehaviour
         gameObject.transform.Translate(coolVector * Time.deltaTime * speed);
 
         if (Input.GetKeyDown(KeyCode.Space)) {
-            Vector3 jumpForce = new Vector3(0.0f, 5.0f, 0.0f);
+            Vector3 jumpForce = new Vector3(0.0f, jumpStrength, 0.0f);
             rb.AddForce(jumpForce, ForceMode.Impulse);
+        }
+
+        if (Input.GetMouseButton(0)) {
+            RotateCamera();
         }
     }
 }
