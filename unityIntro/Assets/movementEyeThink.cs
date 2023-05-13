@@ -9,7 +9,6 @@ public class movementEyeThink : MonoBehaviour
     //defining an integer called myInt 
     //specifics about public: it affects scope as how i expected it to work.
     //public means we can reference myInt outside of this class
-    public int myInt;
     public float speed = 20.0f;
     public float jumpStrength = 10.0f;
     public float rotationStrength = 10.0f;
@@ -19,7 +18,7 @@ public class movementEyeThink : MonoBehaviour
     private Rigidbody rb;
 
     //defining the position of the mouse 
-    private Vector2 lastMousePosition = new Vector2(0.0f, 0.0f);
+    //private Vector2 lastMousePosition = new Vector2(0.0f, 0.0f);
     //this is how you define a vector 
     //Vector3 coolVector = new Vector3(0.0f, 0.0f, 0.0f);
 
@@ -29,21 +28,7 @@ public class movementEyeThink : MonoBehaviour
     //this function doesnt return anything, so its defined as void
     //if i wanted this to return a number, then it be int Start(par)
     void Start() {
-        myInt = 0;
         rb = gameObject.GetComponent<Rigidbody>();
-        lastMousePosition = Input.mousePosition;
-
-    }
-
-    void RotateCamera() {
-        Vector2 currentMousePosition = Input.mousePosition;
-        Vector2 mouseDistance = currentMousePosition - lastMousePosition;
-
-        Vector3 cameraRotation = new Vector3(0.0f, mouseDistance.x * Time.deltaTime, 0.0f);
-        transform.Rotate(cameraRotation * rotationStrength);
-
-
-        lastMousePosition = currentMousePosition;
     }
 
     // Update is called once per frame
@@ -78,8 +63,6 @@ public class movementEyeThink : MonoBehaviour
             rb.AddForce(jumpForce, ForceMode.Impulse);
         }
 
-        if (Input.GetMouseButton(0)) {
-            RotateCamera();
-        }
+        
     }
 }

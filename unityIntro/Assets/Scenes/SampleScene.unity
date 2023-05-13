@@ -378,7 +378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e179992a03ac645a68a3c266cf4ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myInt: 0
   speed: 1
   jumpStrength: 10
   rotationStrength: 10
@@ -650,8 +649,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d3abfbcb8f6a2942922db748c949929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 1
+  offsetDistanceConstant: 10
   target: {fileID: 853506055}
+  flatRotationPoints: 0
 --- !u!1 &1346194831
 GameObject:
   m_ObjectHideFlags: 0
