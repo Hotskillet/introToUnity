@@ -12,7 +12,7 @@ public class movementEyeThink : MonoBehaviour
     public float speed = 20.0f;
     public float jumpStrength = 10.0f;
     public float rotationStrength = 10.0f;
-
+    public Transform target;
     //this is defined as a private variable
     //this is because he doesnt want it to show up in inspector
     private Rigidbody rb;
@@ -33,26 +33,30 @@ public class movementEyeThink : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-
+        transform.rotation = target.transform.rotation;
+        
+        
         Vector3 coolVector = new Vector3(0.0f, 0.0f, 0.0f);
 
+
+
         if (Input.GetKey(KeyCode.W)) {
-            coolVector += Vector3.forward;
+            coolVector += transform.forward;
             //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.S)) {
-            coolVector -= Vector3.forward;
+            coolVector -= transform.forward;
             //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
         }
         
         if (Input.GetKey(KeyCode.A)) {
-            coolVector += Vector3.left;
+            coolVector -= transform.right;
             //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.D)) {
-            coolVector += Vector3.right;
+            coolVector += transform.right;
             //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
         }
 
