@@ -48,31 +48,32 @@ public class CameraMovement : MonoBehaviour
 
 
         //here, we are converting the offset from vector form to float form
-        float changeInX = mouseOffset.x;
-        float changeInY = mouseOffset.y;
+        float changeInX = -mouseOffset.x;
+        float changeInY = -mouseOffset.y;
 
         //so far, rotation points is only gonna affect the xz plane. trig gets complicated otherwise.
         flatRotationPoints += changeInX;
 
 
         //convert it using ConvertToSmallDegrees nvm dont i just realized its not doable
-        float usableRotationPoints = flatRotationPoints / 10;
+        float usableRotationPoints = flatRotationPoints * Mathf.PI / 100;
 
         //set the offset. right now, y offset is HARD CODED. 
         offset = new Vector3(Mathf.Sin(usableRotationPoints), 0.5f, -Mathf.Cos(usableRotationPoints));
-
+        transform.rotation = Quaternion.Euler(Vector3.down * usableRotationPoints * 180 / Mathf.PI + Vector3.right * 10);
 
         //update at the end now that we did all the stuff
         //that way, we keep iterating and refreshing
         lastMousePosition = currentMousePosition;
-
+        //mousePosition = lastMousePosition;
     }
 
 
     // Update is called once per frame
     void Update() {
-        
-        UpdateOffsets();
+        if (Input.GetMouseButton(0)) {
+            UpdateOffsets();
+        }
         transform.position = target.position + (offset * offsetDistanceConstant);
     }
 }

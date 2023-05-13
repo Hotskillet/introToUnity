@@ -649,7 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d3abfbcb8f6a2942922db748c949929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetDistanceConstant: 10
+  offsetDistanceConstant: 5
   target: {fileID: 853506055}
   flatRotationPoints: 0
 --- !u!1 &1346194831
