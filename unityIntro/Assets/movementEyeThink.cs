@@ -33,8 +33,8 @@ public class movementEyeThink : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        transform.rotation = target.transform.rotation;
-        
+        transform.rotation = target.transform.rotation * Quaternion.Euler(0, 1, 0);
+        Debug.Log(transform.rotation);
         
         Vector3 coolVector = new Vector3(0.0f, 0.0f, 0.0f);
 
