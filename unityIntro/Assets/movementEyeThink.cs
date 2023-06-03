@@ -22,6 +22,14 @@ public class movementEyeThink : MonoBehaviour
     //this is how you define a vector 
     //Vector3 coolVector = new Vector3(0.0f, 0.0f, 0.0f);
 
+    //predefining some direction vectors to replace transform.whatever
+    private Vector3 rightVector;
+    private Vector3 backVector;
+    private Vector3 leftVector;
+    private Vector3 frontVector;
+    private Vector3 diffVector;
+
+
     // Start is called before the first frame update
     //so everything in void start is called only once
     //functions are named by what they return
@@ -31,32 +39,84 @@ public class movementEyeThink : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
     }
 
+
+    //the purpose of this function is to give rotated vectors
+    //you would input a vector3, and it outputs a rotated vector3
+    //uses normal vector knowledge to do it   
+    Vector3 giveRotationVector(Vector3 goop, string rotat) {
+
+        //defining a thing vector
+        //maybe not the best idea? mightve been able to juust return newv Vector3
+        //oh well
+
+        Vector3 thing = new Vector3(0, 0, 0);
+
+        //switch statement for which rotation direction
+        //directions are relative to the goop vector, which we treat as "forward"
+        switch (rotat) {
+            case "right":
+                thing = new Vector3(goop.z, 0, -goop.x);
+                break;
+            case "left":
+                thing = new Vector3(-goop.z, 0, goop.x);
+                break;
+            case "backward":
+                thing = new Vector3(-goop.x, 0, -goop.z);
+                break;
+        }
+        return thing;
+    }
+
+    //this function will make produce the replacements for transform.whatever
+    void makeTurnVectors() {
+
+        //we get the difference in position between the camera and the player
+        //player is meant to be stuck moving on the xz plane
+        //so thus we multiply by (1, 0, 1) to take out the y
+
+        diffVector = Vector3.Scale((transform.position - target.transform.position), new Vector3(1, 0, 1));
+        
+        //now we normalize so that our step size is 1. 
+        //this is also why we took out y, so that it wouldnt interfere with normaliziation.
+        backVector = (Vector3.Normalize(diffVector));
+
+        //for some reason, backVector is our left instead of our backwards. 
+        //so now we gotta rotate it left. baffles me why to be honest.
+
+        backVector = giveRotationVector(backVector, "left");
+        
+
+        frontVector = giveRotationVector(backVector, "backward");
+        rightVector = giveRotationVector(frontVector, "right");
+        leftVector = giveRotationVector(frontVector, "left");
+        
+    }
+
+    
     // Update is called once per frame
     void Update() {
-        transform.rotation = target.transform.rotation * Quaternion.Euler(0, 1, 0);
-        Debug.Log(transform.rotation);
         
         Vector3 coolVector = new Vector3(0.0f, 0.0f, 0.0f);
 
-
+        makeTurnVectors();
 
         if (Input.GetKey(KeyCode.W)) {
-            coolVector += transform.forward;
+            coolVector += frontVector;
             //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.S)) {
-            coolVector -= transform.forward;
+            coolVector += backVector;
             //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
         }
         
         if (Input.GetKey(KeyCode.A)) {
-            coolVector -= transform.right;
+            coolVector += leftVector;
             //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.D)) {
-            coolVector += transform.right;
+            coolVector += rightVector;
             //gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
         }
 

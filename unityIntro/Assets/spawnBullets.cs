@@ -33,7 +33,6 @@ public class spawnBullets : MonoBehaviour
         //if the time is past the threshhold, then spawn
         if (currentTime > spawnTime) {
 
-            Debug.Log(currentTime + " is greater than " + spawnTime);
             //first arg is the object to spawn, second is the pos, third is the rotation
             GameObject bullet = GameObject.Instantiate(bulletPrefab, transform.position + transform.forward, Quaternion.identity);
 
